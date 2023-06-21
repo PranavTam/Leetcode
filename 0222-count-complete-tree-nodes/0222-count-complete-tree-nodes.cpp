@@ -17,23 +17,24 @@ const static auto fast = []
     return 0;
 }();
 class Solution {
+    int findheight(TreeNode* root,bool tar)
+    {
+        if(!root)return 0;
+        int ans=0;
+        while(root)
+        {
+            ans++;
+            if(tar==0)root=root->left;
+            else root=root->right;  
+        }
+        return ans;
+    }
 public:
     int countNodes(TreeNode* root) {
         if(!root)return 0;
-        queue<TreeNode*>q;
-        q.push(root);
-        int ans=0;
-        while(!q.empty())
-        {
-            int size=q.size();
-            while(size--)
-            {
-               ans++;
-               TreeNode* node=q.front();q.pop();
-               if(node->left)q.push(node->left);
-               if(node->right)q.push(node->right);
-            }
-        }
-        return ans;
+        int lh=findheight(root,0);
+        int rh=findheight(root,1);
+        if(lh==rh)return (1<<lh)-1;
+        return 1+countNodes(root->left)+countNodes(root->right);
     }
 };
