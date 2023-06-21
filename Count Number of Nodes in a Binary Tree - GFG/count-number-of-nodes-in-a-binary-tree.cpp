@@ -26,25 +26,25 @@ struct Node {
 // User function Template for C++
 
 class Solution {
-  public:
-    int countNodes(Node* root) {
-        // Write your code here
+     int findheight(Node* root,bool tar)
+    {
         if(!root)return 0;
-        queue<Node*>q;
-        q.push(root);
         int ans=0;
-        while(!q.empty())
+        while(root)
         {
-            int size=q.size();
-            while(size--)
-            {
-               ans++;
-              Node* node=q.front();q.pop();
-               if(node->left)q.push(node->left);
-               if(node->right)q.push(node->right);
-            }
+            ans++;
+            if(tar==0)root=root->left;
+            else root=root->right;  
         }
         return ans;
+    }
+  public:
+    int countNodes(Node* root) {
+        if(!root)return 0;
+        int lh=findheight(root,0);
+        int rh=findheight(root,1);
+        if(lh==rh)return (1<<lh)-1;
+        return 1+countNodes(root->left)+countNodes(root->right);
     }
 };
 
